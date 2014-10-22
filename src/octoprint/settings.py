@@ -83,7 +83,8 @@ default_settings = {
 		"sdSupport": True,
 		"sdAlwaysAvailable": False,
 		"swallowOkAfterResend": True,
-		"repetierTargetTemp": False
+		"repetierTargetTemp": False,
+		"grbl": True
 	},
 	"folder": {
 		"uploads": None,

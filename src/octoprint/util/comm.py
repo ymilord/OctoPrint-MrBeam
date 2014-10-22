@@ -152,6 +152,9 @@ class MachineCom(object):
 		self._resendDelta = None
 		self._lastLines = deque([], 50)
 
+		# enabled grbl mode if requested
+		self._grbl = settings().getBoolean(["feature", "grbl"])
+
 		# hooks
 		self._pluginManager = octoprint.plugin.plugin_manager()
 		self._gcode_hooks = self._pluginManager.get_hooks("octoprint.comm.protocol.gcode")
@@ -827,7 +830,11 @@ class MachineCom(object):
 							self._baudrateDetectRetry -= 1
 							self._serial.write('\n')
 							self._log("Baudrate test retry: %d" % (self._baudrateDetectRetry))
-							self._sendCommand("M105")
+							# self._sendCommand("M105")
+							if self._grbl:
+								self._sendCommand("$")
+							else:
+								self._sendCommand("M105")
 							self._testingBaudrate = True
 						else:
 							baudrate = self._baudrateDetectList.pop(0)
@@ -839,10 +846,17 @@ class MachineCom(object):
 								self._baudrateDetectTestOk = 0
 								timeout = getNewTimeout("communication")
 								self._serial.write('\n')
-								self._sendCommand("M105")
+								# self._sendCommand("M105")
+								if self._grbl:
+									self._sendCommand("$")
+								else:
+									self._sendCommand("M105")
 								self._testingBaudrate = True
 							except:
 								self._log("Unexpected error while setting baudrate: %d %s" % (baudrate, getExceptionString()))
+					elif self._grbl and '$$' in line:
+						self._log("Baudrate test ok: %d" % (self._baudrateDetectTestOk))
+						self._changeState(self.STATE_OPERATIONAL)
 					elif 'ok' in line and 'T:' in line:
 						self._baudrateDetectTestOk += 1
 						if self._baudrateDetectTestOk < 10:
@@ -862,19 +876,23 @@ class MachineCom(object):
 
 				### Connection attempt
 				elif self._state == self.STATE_CONNECTING:
-					if (line == "" or "wait" in line) and startSeen:
-						self._sendCommand("M105")
-					elif "start" in line:
-						startSeen = True
-					elif "ok" in line and startSeen:
-						self._changeState(self.STATE_OPERATIONAL)
-						if self._sdAvailable:
-							self.refreshSdFiles()
-						else:
-							self.initSdCard()
-						eventManager().fire(Events.CONNECTED, {"port": self._port, "baudrate": self._baudrate})
-					elif time.time() > timeout:
-						self.close()
+					if self._grbl:
+						if "Grbl" in line:
+								self._changeState(self.STATE_OPERATIONAL)
+					else:
+						if (line == "" or "wait" in line) and startSeen:
+							self._sendCommand("M105")
+						elif "start" in line:
+							startSeen = True
+						elif "ok" in line and startSeen:
+							self._changeState(self.STATE_OPERATIONAL)
+							if self._sdAvailable:
+								self.refreshSdFiles()
+							else:
+								self.initSdCard()
+							eventManager().fire(Events.CONNECTED, {"port": self._port, "baudrate": self._baudrate})
+						elif time.time() > timeout:
+							self.close()
 
 				### Operational
 				elif self._state == self.STATE_OPERATIONAL or self._state == self.STATE_PAUSED:
@@ -885,7 +903,8 @@ class MachineCom(object):
 						elif not self._commandQueue.empty():
 							self._sendCommand(self._commandQueue.get())
 						else:
-							self._sendCommand("M105")
+							if not self._grbl:
+								self._sendCommand("M105")
 						tempRequestTimeout = getNewTimeout("temperature")
 					# resend -> start resend procedure from requested line
 					elif line.lower().startswith("resend") or line.lower().startswith("rs"):
@@ -901,7 +920,8 @@ class MachineCom(object):
 
 					if self.isSdPrinting():
 						if time.time() > tempRequestTimeout and not heatingUp:
-							self._sendCommand("M105")
+							if not self._grbl:
+								self._sendCommand("M105")
 							tempRequestTimeout = getNewTimeout("temperature")
 
 						if time.time() > sdStatusRequestTimeout and not heatingUp:
@@ -910,7 +930,8 @@ class MachineCom(object):
 					else:
 						# Even when printing request the temperature every 5 seconds.
 						if time.time() > tempRequestTimeout and not self.isStreaming():
-							self._commandQueue.put("M105")
+							if not self._grbl:
+								self._commandQueue.put("M105")
 							tempRequestTimeout = getNewTimeout("temperature")
 
 						if "ok" in line and swallowOk:
@@ -1118,7 +1139,11 @@ class MachineCom(object):
 			lineNumber = self._currentLine
 			self._addToLastLines(cmd)
 			self._currentLine += 1
-			self._doSendWithChecksum(cmd, lineNumber)
+			# self._doSendWithChecksum(cmd, lineNumber)
+			if self._grbl:
+				self._doSendWithoutChecksum(cmd)
+			else:
+				self._doSendWithChecksum(cmd, lineNumber)
 		else:
 			self._doSendWithoutChecksum(cmd)
 
