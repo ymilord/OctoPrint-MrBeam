@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2014 The OctoPrint Project - Released under terms
 
 import uuid
 from sockjs.tornado import SockJSRouter
-from flask import Flask, render_template, send_from_directory, g, request, make_response
+from flask import Flask, render_template, send_from_directory, g, request, make_response, session
 from flask.ext.login import LoginManager
 from flask.ext.principal import Principal, Permission, RoleNeed, identity_loaded, UserNeed
 from flask.ext.babel import Babel
@@ -160,8 +160,16 @@ def on_identity_loaded(sender, identity):
 
 
 def load_user(id):
+	if session and "usersession.id" in session:
+		sessionid = session["usersession.id"]
+	else:
+		sessionid = None
+
 	if userManager is not None:
-		return userManager.findUser(id)
+		if sessionid:
+			return userManager.findUser(username=id, session=sessionid)
+		else:
+			return userManager.findUser(username=id)
 	return users.DummyUser()
 
 
@@ -256,7 +264,15 @@ class Server():
 			settings().get(["server", "reverseProxy", "prefixScheme"])
 		)
 
-		app.secret_key = "k3PuVYgtxNm8DXKKTw2nWmFQQun9qceV"
+		secret_key = settings().get(["server", "secretKey"])
+		if not secret_key:
+			import string
+			from random import choice
+			chars = string.ascii_lowercase + string.ascii_uppercase + string.digits
+			secret_key = "".join(choice(chars) for _ in xrange(32))
+			settings().set(["server", "secretKey"], secret_key)
+			settings().save()
+		app.secret_key = secret_key
 		loginManager = LoginManager()
 		loginManager.session_protection = "strong"
 		loginManager.user_callback = load_user
