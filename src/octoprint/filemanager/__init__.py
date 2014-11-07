@@ -17,7 +17,7 @@ from .storage import LocalFileStorage
 extensions = dict(
 	# extensions for 3d model files
 	model=dict(
-		stl=["stl"]
+		stl=["stl","svg"]
 	),
 	# extensions for printable machine code
 	machinecode=dict(

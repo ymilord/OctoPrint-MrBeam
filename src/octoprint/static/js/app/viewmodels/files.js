@@ -189,6 +189,12 @@ function GcodeFilesViewModel(printerStateViewModel, loginStateViewModel, slicing
         self.slicing.show(file.origin, file.name);
     };
 
+    self.convertSVG = function(file) {
+        if (!file) return;
+
+        self.slicing.show(file.origin, file.name);
+    };
+
     self.initSdCard = function() {
         self._sendSdCommand("init");
     };
@@ -235,7 +241,12 @@ function GcodeFilesViewModel(printerStateViewModel, loginStateViewModel, slicing
     };
 
     self.templateFor = function(data) {
-        return "files_template_" + data.type;
+        var extension = data.name.split('.').pop().toLowerCase();
+        if (extension == "svg") {
+            return "files_template_" + data.type + "_svg";
+        } else {
+            return "files_template_" + data.type;
+        }
     };
 
     self.getEntryId = function(data) {
@@ -262,6 +273,10 @@ function GcodeFilesViewModel(printerStateViewModel, loginStateViewModel, slicing
     };
 
     self.enableSlicing = function(data) {
+        return self.loginState.isUser() && !(self.isPrinting() || self.isPaused());
+    };
+
+    self.enableSVGConversion = function(data) {
         return self.loginState.isUser() && !(self.isPrinting() || self.isPaused());
     };
 
