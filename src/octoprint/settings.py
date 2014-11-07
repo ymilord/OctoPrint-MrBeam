@@ -131,6 +131,7 @@ default_settings = {
 	},
 	"accessControl": {
 		"enabled": True,
+		"salt": None,
 		"userManager": "octoprint.users.FilebasedUserManager",
 		"userfile": None,
 		"autologinLocal": False,
@@ -172,6 +173,7 @@ default_settings = {
 			"includeCurrentToolInTemps": True,
 			"hasBed": True,
 			"repetierStyleTargetTemperature": False,
+			"smoothieTemperatureReporting": False,
 			"extendedSdFileList": False
 		}
 	}

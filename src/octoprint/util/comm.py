@@ -580,8 +580,8 @@ class MachineCom(object):
 		maxToolNum, parsedTemps = self._parseTemperatures(line)
 
 		# extruder temperatures
-		if not "T0" in parsedTemps.keys() and "T" in parsedTemps.keys():
-			# only single reporting, "T" is our one and only extruder temperature
+		if not "T0" in parsedTemps.keys() and not "T1" in parsedTemps.keys() and "T" in parsedTemps.keys():
+			# no T1 so only single reporting, "T" is our one and only extruder temperature
 			toolNum, actual, target = parsedTemps["T"]
 
 			if target is not None:
@@ -591,7 +591,13 @@ class MachineCom(object):
 				self._temp[0] = (actual, oldTarget)
 			else:
 				self._temp[0] = (actual, None)
-		elif "T0" in parsedTemps.keys():
+		elif not "T0" in parsedTemps.keys() and "T" in parsedTemps.keys():
+			# Smoothieware sends multi extruder temperature data this way: "T:<first extruder> T1:<second extruder> ..." and therefore needs some special treatment...
+			_, actual, target = parsedTemps["T"]
+			del parsedTemps["T"]
+			parsedTemps["T0"] = (0, actual, target)
+
+		if "T0" in parsedTemps.keys():
 			for n in range(maxToolNum + 1):
 				tool = "T%d" % n
 				if not tool in parsedTemps.keys():
@@ -1001,7 +1007,7 @@ class MachineCom(object):
 
 	def _handleErrors(self, line):
 		# No matter the state, if we see an error, goto the error state and store the error for reference.
-		if line.startswith('Error:'):
+		if line.startswith('Error:') or line.startswith('!!'):
 			#Oh YEAH, consistency.
 			# Marlin reports an MIN/MAX temp error as "Error:x\n: Extruder switched off. MAXTEMP triggered !\n"
 			#	But a bed temp error is reported as "Error: Temperature heated bed switched off. MAXTEMP triggered !!"

@@ -41,16 +41,27 @@
   * The "Slicing done" notification is now colored green ([#558](https://github.com/foosel/OctoPrint/issues/558)).
 * File management now supports STL files as first class citizens (including UI adjustments to allow management of
   uploaded STL files including removal and reslicing) and also allows folders (not yet supported by UI)
+* Also interpret lines starting with "!!" as errors
+* Added deletion of pyc files to the `python setup.py clean` command
 
 ### Bug Fixes
 
 * [#435](https://github.com/foosel/OctoPrint/issues/435) - Always interpret negative duration (e.g. for print time left)
   as 0
+* [#633](https://github.com/foosel/OctoPrint/issues/633) - Correctly interpret temperature lines from multi extruder 
+  setups under Smoothieware
 * Various fixes of bugs in newly introduced features and improvements:
   * [#625](https://github.com/foosel/OctoPrint/pull/625) - Newly added GCODE files were not being added to the analysis
     queue
 
-## 1.1.1 (Unreleased)
+## 1.1.2 (Unreleased)
+
+### Bug Fixes
+
+* [#634](https://github.com/foosel/OctoPrint/pull/634) - Fixed missing `branch` fields in version dicts generated
+  by versioneer
+
+## 1.1.1 (2014-10-27)
 
 ### Improvements
 
@@ -58,6 +69,7 @@
   server start and written back into ``config.yaml``
 * Event subscriptions are now enabled by default (it was an accident that they weren't)
 * Generate the key used for session hashing individually for each server instance
+* Generate the salt used for hashing user passwords individually for each server instance
 
 ### Bug Fixes
 
