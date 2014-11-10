@@ -49,7 +49,7 @@ function GcodeViewModel(loginStateViewModel, settingsViewModel) {
     self.renderer_syncProgress = ko.observable(true);
 
     self.reader_sortLayers = ko.observable(true);
-    self.reader_hideEmptyLayers = ko.observable(true);
+    self.reader_hideEmptyLayers = ko.observable(false);
 
     self.synchronizeOptions = function(additionalRendererOptions, additionalReaderOptions) {
         var renderer = {
