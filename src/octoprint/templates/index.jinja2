@@ -407,7 +407,7 @@
                             </div>
                             <!-- Extrusion control panel -->
                             <div class="jog-panel" style="display: none;" data-bind="visible: loginState.isUser">
-                                <h1>Tool (E)</h1>
+                                <h1>Laser</h1>
                                 <div>
                                     <div class="btn-group control-box">
                                         <button class="btn dropdown-toggle" data-toggle="dropdown" data-bind="enable: isOperational() && !isPrinting() && !isPaused() && loginState.isUser()">
@@ -422,8 +422,8 @@
                                         <input type="text" class="input-mini text-right" data-bind="value: extrusionAmount, enable: isOperational() && !isPrinting() && loginState.isUser(), attr: {placeholder: settings.printer_defaultExtrusionLength}">
                                         <span class="add-on">mm</span>
                                     </div>
-                                    <button class="btn btn-block control-box" data-bind="enable: isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.sendExtrudeCommand() }">{{ _('Extrude') }}</button>
-                                    <button class="btn btn-block control-box" data-bind="enable: isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.sendRetractCommand() }">{{ _('Retract') }}</button>
+                                    <button class="btn btn-block control-box" data-bind="enable: isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.sendCustomCommand({type:'command',command:'M05'}) }">{{ _('Shutdown Laser') }}</button>
+                                    <button class="btn btn-block control-box" data-bind="enable: isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.sendCustomCommand({type:'command',command:'M03 S15'}) }">{{ _('Low Power') }}</button>
                                 </div>
                             </div>
                             <!-- General control panel -->
@@ -431,8 +431,8 @@
                                 <h1>{{ _('General') }}</h1>
                                 <div>
                                     <button class="btn btn-block control-box" data-bind="enable: isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.sendCustomCommand({type:'command',command:'M18'}) }">{{ _('Motors off') }}</button>
-                                    <button class="btn btn-block control-box" data-bind="enable: isOperational() && loginState.isUser(), click: function() { $root.sendCustomCommand({type:'command',command:'M106'}) }">{{ _('Fans on') }}</button>
-                                    <button class="btn btn-block control-box" data-bind="enable: isOperational() && loginState.isUser(), click: function() { $root.sendCustomCommand({type:'command',command:'M106 S0'}) }">{{ _('Fans off') }}</button>
+                                    <button class="btn btn-block control-box" data-bind="enable: isOperational() && loginState.isUser(), click: function() { $root.sendCustomCommand({type:'command',command:'M08'}) }">{{ _('Fans on') }}</button>
+                                    <button class="btn btn-block control-box" data-bind="enable: isOperational() && loginState.isUser(), click: function() { $root.sendCustomCommand({type:'command',command:'M09'}) }">{{ _('Fans off') }}</button>
                                 </div>
                             </div>
 
