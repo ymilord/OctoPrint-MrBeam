@@ -192,7 +192,7 @@ function GcodeFilesViewModel(printerStateViewModel, loginStateViewModel, slicing
     self.convertSVG = function(file) {
         if (!file) return;
 
-        self.slicing.show(file.origin, file.name);
+        self.svgconversion.show(file.origin, file.name);
     };
 
     self.initSdCard = function() {
