@@ -400,6 +400,7 @@
                                     <div class="btn-group" data-toggle="buttons-radio" id="jog_distance">
                                         <button type="button" class="btn distance" data-distance="0.1" data-bind="enable: loginState.isUser()">0.1</button>
                                         <button type="button" class="btn distance" data-distance="1" data-bind="enable: loginState.isUser()">1</button>
+                                        <button type="button" class="btn distance active" data-distance="5" data-bind="enable: loginState.isUser()">5</button>
                                         <button type="button" class="btn distance active" data-distance="10" data-bind="enable: loginState.isUser()">10</button>
                                         <button type="button" class="btn distance" data-distance="100" data-bind="enable: loginState.isUser()">100</button>
                                     </div>
@@ -409,19 +410,12 @@
                             <div class="jog-panel" style="display: none;" data-bind="visible: loginState.isUser">
                                 <h1>Laser</h1>
                                 <div>
-                                    <div class="btn-group control-box">
-                                        <button class="btn dropdown-toggle" data-toggle="dropdown" data-bind="enable: isOperational() && !isPrinting() && !isPaused() && loginState.isUser()">
-                                            {{ _('Select Tool...') }}
-                                            <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu" data-bind="foreach: tools">
-                                            <li><a href="#" data-bind="click: $root.sendSelectToolCommand, text: name(), enable: $root.isOperational() && !$root.isPrinting() && !$root.isPaused() && $root.loginState.isUser()"></a></li>
-                                        </ul>
-                                    </div>
+                                    
                                     <div class="input-append control-box">
                                         <input type="text" class="input-mini text-right" data-bind="value: extrusionAmount, enable: isOperational() && !isPrinting() && loginState.isUser(), attr: {placeholder: settings.printer_defaultExtrusionLength}">
                                         <span class="add-on">Power Level</span>
                                     </div>
+                                    <button class="btn btn-block control-box" data-bind="enable: isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.sendPowerCommand() }">{{ _('Adjust Power') }}</button>
                                     <button class="btn btn-block control-box" data-bind="enable: isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.sendCustomCommand({type:'command',command:'M05'}) }">{{ _('Shutdown Laser') }}</button>
                                     <button class="btn btn-block control-box" data-bind="enable: isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.sendCustomCommand({type:'command',command:'M03 S15'}) }">{{ _('Low Power') }}</button>
                                 </div>
