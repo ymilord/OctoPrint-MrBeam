@@ -144,7 +144,7 @@ class SvgToGcodePlugin(octoprint.plugin.SlicerPlugin,
 
 	def get_assets(self):
 		return {
-			"js": ["js/svgtogcode.js"],
+			"js": ["js/svgtogcode.js", "js/vectorgraphicsconversion.js"],
 			"less": ["less/svgtogcode.less"],
 			"css": ["css/svgtogcode.css"]
 		}
