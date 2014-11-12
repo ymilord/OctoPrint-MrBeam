@@ -200,6 +200,10 @@ class Printer():
 	def home(self, axes):
 		self.commands(["G91", "G28 %s" % " ".join(map(lambda x: "%s0" % x.upper(), axes)), "G90"])
 
+	def power(self, amount):
+		extrusionSpeed = settings().get(["printerParameters", "movementSpeed", "e"])
+		self.commands(["M03", "G1 E%s" % (amount, extrusionSpeed), "G90"])
+	
 	def extrude(self, amount):
 		extrusionSpeed = settings().get(["printerParameters", "movementSpeed", "e"])
 		self.commands(["G91", "G1 E%s F%d" % (amount, extrusionSpeed), "G90"])
@@ -298,10 +302,10 @@ class Printer():
 		self._comm.cancelPrint()
 
 		if disableMotorsAndHeater:
-			# disable motors, switch off hotends, bed and fan
+			# disable motors, switch off laser & fan
 			commands = ["M84"]
-			commands.extend(map(lambda x: "M104 T%d S0" % x, range(settings().getInt(["printerParameters", "numExtruders"]))))
-			commands.extend(["M140 S0", "M106 S0"])
+			commands.extend(map(lambda x: "M05" % x, range(settings().getInt(["printerParameters", "numExtruders"]))))
+			commands.extend(["M09", "M05"])
 			self.commands(commands)
 
 		# reset progress, height, print time
