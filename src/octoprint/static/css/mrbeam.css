@@ -425,6 +425,9 @@ input[type="submit"].btn.btn-mini {
   text-shadow: 0 1px 0 #cccccc;
   color: #333333;
 }
+#navbar .brand {
+	padding: 0px 20px 0px;
+}
 #navbar .navbar-inner .brand .caret,
 #navbar .navbar-inner .nav > li > a .caret {
   border-bottom-color: #939393;
@@ -438,11 +441,11 @@ input[type="submit"].btn.btn-mini {
   border-top-color: #636363;
 }
 #navbar .navbar-inner .brand span {
-  background-image: url(../img/tentacle-20x20.png);
+  background-image: url(../img/mr-typo-red_x120.png);
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   #navbar .navbar-inner .brand span {
-    background-image: url(../img/tentacle-20x20@2x.png);
+    background-image: url(../img/mr-typo-red_x120.png);
   }
 }
 #navbar .navbar-inner .nav li.dropdown.open > .dropdown-toggle,
@@ -485,11 +488,11 @@ input[type="submit"].btn.btn-mini {
   border-top-color: #f2bfbf;
 }
 #navbar .navbar-inner.red .brand span {
-  background-image: url(../img/tentacle-20x20-light.png);
+  background-image: url(../img/mr-typo-red_x120.png);
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   #navbar .navbar-inner.red .brand span {
-    background-image: url(../img/tentacle-20x20-light@2x.png);
+    background-image: url(../img/mr-typo-red_x120.png);
   }
 }
 #navbar .navbar-inner.red .nav li.dropdown.open > .dropdown-toggle,
@@ -532,11 +535,11 @@ input[type="submit"].btn.btn-mini {
   border-top-color: #f2d3bf;
 }
 #navbar .navbar-inner.orange .brand span {
-  background-image: url(../img/tentacle-20x20-light.png);
+  background-image: url(../img/mr-typo-red_x120.png);
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   #navbar .navbar-inner.orange .brand span {
-    background-image: url(../img/tentacle-20x20-light@2x.png);
+    background-image: url(../img/mr-typo-red_x120.png);
   }
 }
 #navbar .navbar-inner.orange .nav li.dropdown.open > .dropdown-toggle,
@@ -579,11 +582,11 @@ input[type="submit"].btn.btn-mini {
   border-top-color: #635e30;
 }
 #navbar .navbar-inner.yellow .brand span {
-  background-image: url(../img/tentacle-20x20.png);
+  background-image: url(../img/mr-typo-red_x120.png);
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   #navbar .navbar-inner.yellow .brand span {
-    background-image: url(../img/tentacle-20x20@2x.png);
+    background-image: url(../img/mr-typo-red_x120@2x.png);
   }
 }
 #navbar .navbar-inner.yellow .nav li.dropdown.open > .dropdown-toggle,
@@ -626,11 +629,11 @@ input[type="submit"].btn.btn-mini {
   border-top-color: #446630;
 }
 #navbar .navbar-inner.green .brand span {
-  background-image: url(../img/tentacle-20x20.png);
+  background-image: url(../img/mr-typo-red_x120.png);
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   #navbar .navbar-inner.green .brand span {
-    background-image: url(../img/tentacle-20x20@2x.png);
+    background-image: url(../img/mr-typo-red_x120@2x.png);
   }
 }
 #navbar .navbar-inner.green .nav li.dropdown.open > .dropdown-toggle,
@@ -673,11 +676,11 @@ input[type="submit"].btn.btn-mini {
   border-top-color: #bfd3f5;
 }
 #navbar .navbar-inner.blue .brand span {
-  background-image: url(../img/tentacle-20x20-light.png);
+  background-image: url(../img/mr-typo-red_x120-light.png);
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   #navbar .navbar-inner.blue .brand span {
-    background-image: url(../img/tentacle-20x20-light@2x.png);
+    background-image: url(../img/mr-typo-red_x120-light@2x.png);
   }
 }
 #navbar .navbar-inner.blue .nav li.dropdown.open > .dropdown-toggle,
@@ -720,11 +723,11 @@ input[type="submit"].btn.btn-mini {
   border-top-color: #d3bff5;
 }
 #navbar .navbar-inner.violet .brand span {
-  background-image: url(../img/tentacle-20x20-light.png);
+  background-image: url(../img/mr-typo-red_x120-light.png);
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   #navbar .navbar-inner.violet .brand span {
-    background-image: url(../img/tentacle-20x20-light@2x.png);
+    background-image: url(../img/mr-typo-red_x120-light@2x.png);
   }
 }
 #navbar .navbar-inner.violet .nav li.dropdown.open > .dropdown-toggle,
@@ -767,11 +770,11 @@ input[type="submit"].btn.btn-mini {
   border-top-color: #c4c4c4;
 }
 #navbar .navbar-inner.black .brand span {
-  background-image: url(../img/tentacle-20x20-light.png);
+  background-image: url(../img/mr-typo-red_x120.png);
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   #navbar .navbar-inner.black .brand span {
-    background-image: url(../img/tentacle-20x20-light@2x.png);
+    background-image: url(../img/mr-typo-red_x120.png);
   }
 }
 #navbar .navbar-inner.black .nav li.dropdown.open > .dropdown-toggle,
@@ -787,11 +790,20 @@ input[type="submit"].btn.btn-mini {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff121212', endColorstr='#ff787878', GradientType=0);
 }
 #navbar .navbar-inner .brand span {
-  background-size: 20px 20px;
+  background-size: auto	100%;
   background-position: left center;
   padding-left: 24px;
   background-repeat: no-repeat;
+  display: inline-block;
+  min-width: 400px;
+  height:48px;
+  
 }
+
+.navbar .nav>li>a {
+	padding: 14px 15px 14px;
+}
+
 .octoprint-container {
   margin-top: 20px;
   /** OctoPrint application tabs */
@@ -1468,4 +1480,30 @@ ul.dropdown-menu li a {
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   border-radius: 50%;
+}
+
+
+#btn_motors_off, 
+#tab_temp,
+#temp, 
+#control_zaxis, 
+#gcode_command_slider, #gcode_layer_slider,
+#renderer_options,
+#control_extruder {display:none;}
+
+.btn-group>.btn:first-child, 
+.btn-group>.btn:last-child,
+select, 
+textarea, 
+input, 
+.uneditable-input,
+.input-append .add-on:last-child, 
+.input-append .btn:last-child, 
+.input-append .btn-group:last-child>.dropdown-toggle, 
+.input-append input, 
+.input-append select, 
+.input-append .uneditable-input {
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
 }
