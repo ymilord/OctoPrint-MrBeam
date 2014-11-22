@@ -1,24 +1,24 @@
 <div id="settings_dialog" class="modal hide fade container" tabindex="-1" role="dialog" aria-labelledby="settings_dialog_label" aria-hidden="true">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h3 id="settings_dialog_label">{{ _('OctoPrint Settings') }}</h3>
+        <h3 id="settings_dialog_label">{{ _('Mr Beam Settings') }}</h3>
     </div>
     <div class="modal-body">
         <div class="tabbable">
-            <ul class="nav nav-list span4" id="settingsTabs">
-                <li class="nav-header">{{ _('Printer') }}</li>
+            <ul class="nav nav-list span3" id="settingsTabs">
+                <!--<li class="nav-header">{{ _('Mr Beam') }}</li>-->
                 <li class="active"><a href="#settings_serialConnection" data-toggle="tab">{{ _('Serial Connection') }}</a></li>
-                <li><a href="#settings_printerParameters" data-toggle="tab">{{ _('Printer Parameters') }}</a></li>
-                <li><a href="#settings_temperature" data-toggle="tab">{{ _('Temperatures') }}</a></li>
+                <li><a href="#settings_printerParameters" data-toggle="tab">{{ _('Parameters') }}</a></li>
+<!--                <li><a href="#settings_temperature" data-toggle="tab">{{ _('Temperatures') }}</a></li>
                 <li><a href="#settings_terminalFilters" data-toggle="tab">{{ _('Terminal filters') }}</a></li>
                 <li class="nav-header">{{ _('Features') }}</li>
                 <li><a href="#settings_features" data-toggle="tab">{{ _('Features') }}</a></li>
-                <li><a href="#settings_webcam" data-toggle="tab">{{ _('Webcam') }}</a></li>
+                <li><a href="#settings_webcam" data-toggle="tab">{{ _('Webcam') }}</a></li>-->
                 {% if enableAccessControl %}<li><a href="#settings_users" data-toggle="tab">{{ _('Access Control') }}</a></li>{% endif %}
-                <li><a href="#settings_api" data-toggle="tab">{{ _('API') }}</a></li>
-                <li class="nav-header">OctoPrint</li>
+                <!--<li><a href="#settings_api" data-toggle="tab">{{ _('API') }}</a></li>-->
+                <!--<li class="nav-header">OctoPrint</li>-->
                 <li><a href="#settings_folder" data-toggle="tab">{{ _('Folders') }}</a></li>
-                <li><a href="#settings_appearance" data-toggle="tab">{{ _('Appearance') }}</a></li>
+                <!--<li><a href="#settings_appearance" data-toggle="tab">{{ _('Appearance') }}</a></li>-->
                 <li><a href="#settings_logs" data-toggle="tab">{{ _('Logs') }}</a></li>
                 {% if settingsPlugins %}
                     <li class="nav-header">Plugins</li>
@@ -39,19 +39,19 @@
                                 <select id="settings-serialPort" data-bind="options: serial_portOptions, optionsCaption: 'AUTO', value: serial_port"></select>
                             </div>
                         </div>
-                        <div class="control-group">
+<!--                        <div class="control-group">
                             <label class="control-label" for="settings-baudrate">{{ _('Baudrate') }}</label>
                             <div class="controls">
                                 <select id="settings-baudrate" data-bind="options: serial_baudrateOptions, optionsCaption: 'AUTO', value: serial_baudrate"></select>
                             </div>
-                        </div>
-                        <div class="control-group">
+                        </div>-->
+<!--                        <div class="control-group">
                             <div class="controls">
                                 <label class="checkbox">
                                     <input type="checkbox" data-bind="checked: serial_autoconnect" id="settings-serialAutoconnect"> {{ _('Auto-connect to printer on server start') }}
                                 </label>
                             </div>
-                        </div>
+                        </div>-->
                         <div class="control-group">
                             <label class="control-label" for="settings-serialTimeoutCommunication">{{ _('Communication timeout') }}</label>
                             <div class="controls">
@@ -61,7 +61,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="control-group">
+<!--                        <div class="control-group">
                             <label class="control-label" for="settings-movementSpeedE">{{ _('Temperature timeout') }}</label>
                             <div class="controls">
                                 <div class="input-append">
@@ -69,8 +69,8 @@
                                     <span class="add-on">s</span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="control-group">
+                        </div>-->
+<!--                        <div class="control-group">
                             <label class="control-label" for="settings-serialTimeoutSdStatus">{{ _('SD status timeout') }}</label>
                             <div class="controls">
                                 <div class="input-append">
@@ -78,7 +78,7 @@
                                     <span class="add-on">s</span>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                         <div class="control-group">
                             <label class="control-label" for="settings-serialTimeoutConnection">{{ _('Connection timeout') }}</label>
                             <div class="controls">
@@ -108,7 +108,7 @@
                 </div>
                 <div class="tab-pane" id="settings_printerParameters">
                     <form class="form-horizontal">
-                        <div class="control-group">
+<!--                        <div class="control-group">
                             <label class="control-label">{{ _('Axis') }}</label>
                             <div class="controls form-inline">
                                 <label>{{ _('X') }}:</label>
@@ -147,8 +147,8 @@
                                     <span class="add-on">mm/min</span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="control-group">
+                        </div>-->
+<!--                        <div class="control-group">
                             <label class="control-label" for="settings-defaultExtrusionLength">{{ _('Default extrusion length') }}</label>
                             <div class="controls">
                                 <input type="number" class="input-mini text-right" min="1" data-bind="value: printer_defaultExtrusionLength" id="settings-defaultExtrusionLength">
@@ -159,10 +159,10 @@
                             <div class="controls">
                                 <input type="number" class="input-mini text-right" min="1" max="5" data-bind="value: printer_numExtruders" id="settings-numExtruders">
                             </div>
-                        </div>
-                        <div class="control-group">
+                        </div>-->
+<!--                        <div class="control-group">
                             <label class="control-label" for="settings-extruderOffsets">{{ _('Extruder Offsets') }}</label>
-                            <!-- ko foreach: ko_printer_extruderOffsets -->
+                             ko foreach: ko_printer_extruderOffsets 
                             <div class="controls form-inline">
                                 <label>X:</label>
                                 <div class="input-append">
@@ -175,8 +175,8 @@
                                     <span class="add-on">mm</span>
                                 </div>
                             </div>
-                            <!-- /ko -->
-                        </div>
+                             /ko 
+                        </div>-->
                         <div class="control-group">
                             <label class="control-label" for="settings-bedSize">{{ _('Bed Size') }}</label>
                             <div class="controls form-inline" data-bind="ifnot: printer_bedCircular">
@@ -191,7 +191,7 @@
                                     <span class="add-on">mm</span>
                                 </div>
                             </div>
-                            <div class="controls form-inline" data-bind="if: printer_bedCircular">
+<!--                            <div class="controls form-inline" data-bind="if: printer_bedCircular">
                                 <label>{{ _('Radius') }}:</label>
                                 <div class="input-append">
                                     <input type="number" step="0.01" class="input-mini text-right" data-bind="value: printer_bedDimensionR" id="settings-bedR">
@@ -202,7 +202,7 @@
                                 <label class="checkbox">
                                     <input type="checkbox" data-bind="checked: printer_bedCircular" id="settings-bedCircular"> {{ _('Circular') }}
                                 </label>
-                            </div>
+                            </div>-->
                         </div>
                     </form>
                 </div>
@@ -321,7 +321,7 @@
                                 <input type="text" class="input-block-level" data-bind="value: folder_uploads" id="settings-folderUploads">
                             </div>
                         </div>
-                        <div class="control-group">
+<!--                        <div class="control-group">
                             <label class="control-label" for="settings-folderTimelapse">{{ _('Timelapse Folder') }}</label>
                             <div class="controls">
                                 <input type="text" class="input-block-level" data-bind="value: folder_timelapse" id="settings-folderTimelapse">
@@ -333,18 +333,19 @@
                                 <input type="text" class="input-block-level" data-bind="value: folder_timelapseTmp" id="settings-folderTimelapseTemp">
                             </div>
                         </div>
+-->
                         <div class="control-group">
                             <label class="control-label" for="settings-folderLogs">{{ _('Logs Folder') }}</label>
                             <div class="controls">
                                 <input type="text" class="input-block-level" data-bind="value: folder_logs" id="settings-folderLogs">
                             </div>
                         </div>
-                        <div class="control-group">
+<!--                        <div class="control-group">
                             <label class="control-label" for="settings-watchedLogs">{{ _('Watched Folder') }}</label>
                             <div class="controls">
                                 <input type="text" class="input-block-level" data-bind="value: folder_watched" id="settings-folderWatched">
                             </div>
-                        </div>
+                        </div>-->
                     </form>
                 </div>
                 <div class="tab-pane" id="settings_temperature">
