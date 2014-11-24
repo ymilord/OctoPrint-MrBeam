@@ -247,7 +247,7 @@
                                         <div class="size">{{ _('Size') }}: <span data-bind="text: formatSize(size)"></span></div>
                                         <div class="btn-group action-buttons">
                                             <div class="btn btn-mini" data-bind="click: function() { if ($root.enableRemove($data)) { $root.removeFile($data); } else { return; } }, css: {disabled: !$root.enableRemove($data)}"><i class="icon-trash" title="{{ _('Remove') }}"></i></div>
-                                            <div class="btn btn-mini"  data-bind="click: function() { if ($root.enableSVGConversion($data)) { $root.convertSVG($data); } else { return; } }, css: {disabled: !$root.enableSVGConversion($data)}"><i class="icon-print" title="{{ _('Convert to Laserpath') }}"></i></div>
+                                            <div class="btn btn-mini"  data-bind="click: function() { $root.convertSVG2($data);  }, css: {disabled: !$root.enableSVGConversion($data)}"><i class="icon-print" title="{{ _('Convert to Laserpath') }}"></i></div>
                                         </div>
                                     </script>
 
