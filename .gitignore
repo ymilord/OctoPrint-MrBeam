@@ -23,3 +23,4 @@ OctoPrint.egg-info
 
 *.codekit
 /nbproject/private/
+.directory
