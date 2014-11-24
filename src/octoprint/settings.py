@@ -78,10 +78,10 @@ default_settings = {
 		"maxExtruders": 10
 	},
 	"feature": {
-		"temperatureGraph": True,
+		"temperatureGraph": False,
 		"waitForStartOnConnect": False,
 		"alwaysSendChecksum": False,
-		"sdSupport": True,
+		"sdSupport": False,
 		"sdAlwaysAvailable": False,
 		"swallowOkAfterResend": True,
 		"repetierTargetTemp": False,
@@ -117,7 +117,7 @@ default_settings = {
 			{"x": 0.0, "y": 0.0}
 		],
 		"bedDimensions": {
-			"x": 200.0, "y": 200.0, "r": 100, "circular": False
+			"x": 435.0, "y": 300.0, "r": 100, "circular": False
 		},
 		"defaultExtrusionLength": 5
 	},
