@@ -786,6 +786,7 @@ class MachineCom(object):
 						and line.strip() != 'ok' and not line.startswith("wait") \
 						and not line.startswith('Resend:') \
 						and line != 'echo:Unknown command:""\n' \
+						and line != "Unsupported statement" \
 						and self.isOperational():
 					self._callback.mcMessage(line)
 
