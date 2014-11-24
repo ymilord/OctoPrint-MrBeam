@@ -77,7 +77,8 @@ $(function() {
         var controlViewModel = new ControlViewModel(loginStateViewModel, settingsViewModel);
         var terminalViewModel = new TerminalViewModel(loginStateViewModel, settingsViewModel);
         var slicingViewModel = new SlicingViewModel(loginStateViewModel);
-        var gcodeFilesViewModel = new GcodeFilesViewModel(printerStateViewModel, loginStateViewModel, slicingViewModel);
+        var vectorConversionViewModel = new VectorConversionViewModel(loginStateViewModel);
+        var gcodeFilesViewModel = new GcodeFilesViewModel(printerStateViewModel, loginStateViewModel, slicingViewModel, vectorConversionViewModel);
         var gcodeViewModel = new GcodeViewModel(loginStateViewModel, settingsViewModel);
         var navigationViewModel = new NavigationViewModel(loginStateViewModel, appearanceViewModel, settingsViewModel, usersViewModel);
         var logViewModel = new LogViewModel(loginStateViewModel);
@@ -97,7 +98,8 @@ $(function() {
             gcodeViewModel: gcodeViewModel,
             navigationViewModel: navigationViewModel,
             logViewModel: logViewModel,
-            slicingViewModel: slicingViewModel
+            slicingViewModel: slicingViewModel,
+            vectorConversionViewModel: vectorConversionViewModel
         };
 
         var allViewModels = _.values(viewModelMap);
@@ -413,6 +415,7 @@ $(function() {
             }
 
             ko.applyBindings(slicingViewModel, document.getElementById("slicing_configuration_dialog"));
+            ko.applyBindings(vectorConversionViewModel, document.getElementById("dialog_vector_graphics_conversion"));
 
             // apply bindings and signal startup
             _.each(additionalViewModels, function(additionalViewModel) {
@@ -421,7 +424,11 @@ $(function() {
                 }
 
                 // model instance, target container
-                ko.applyBindings(additionalViewModel[0], additionalViewModel[1]);
+                if (additionalViewModel[1]) {
+                    ko.applyBindings(additionalViewModel[0], additionalViewModel[1]);
+                } else {
+                    ko.applyBindings(additionalViewModel[0]);
+                }
 
                 if (additionalViewModel[0].hasOwnProperty("onAfterBinding")) {
                     additionalViewModel[0].onAfterBinding();
