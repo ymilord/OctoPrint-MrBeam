@@ -24,9 +24,9 @@ def settings(init=False, configfile=None, basedir=None):
 
 default_settings = {
 	"serial": {
-		"port": None,
-		"baudrate": None,
-		"autoconnect": False,
+		"port": "/dev/ttyACM0",
+		"baudrate": 115200,
+		"autoconnect": True,
 		"log": False,
 		"timeout": {
 			"detection": 0.5,

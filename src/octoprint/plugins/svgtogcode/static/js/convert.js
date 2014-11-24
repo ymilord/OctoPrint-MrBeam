@@ -1,5 +1,4 @@
-$(function() {
-function VectorGraphicsConversionViewModel(loginStateViewModel) {
+function VectorConversionViewModel(loginStateViewModel) {
     var self = this;
 
     self.loginState = loginStateViewModel;
@@ -12,6 +11,8 @@ function VectorGraphicsConversionViewModel(loginStateViewModel) {
     self.defaultProfile = undefined;
 
     self.gcodeFilename = ko.observable();
+    self.laserIntensity = ko.observable();
+    self.laserSpeed = ko.observable();
 
     self.title = ko.observable();
     self.slicer = ko.observable();
@@ -22,20 +23,26 @@ function VectorGraphicsConversionViewModel(loginStateViewModel) {
     self.show = function(target, file) {
         self.target = target;
         self.file = file;
-        self.title(_.sprintf(gettext("Convert %(filename)s"), {filename: self.file}));
+        self.title(_.sprintf(gettext("Converting %(filename)s"), {filename: self.file}));
         self.gcodeFilename(self.file.substr(0, self.file.lastIndexOf(".")));
-        $("#slicing_configuration_dialog").modal("show");
+        $("#dialog_vector_graphics_conversion").modal("show");
     };
 
     self.slicer.subscribe(function(newValue) {
         self.profilesForSlicer(newValue);
     });
 
-    self.enableSliceButton = ko.computed(function() {
-        return self.gcodeFilename() != undefined
-            && self.gcodeFilename().trim() != ""
-            && self.slicer() != undefined
-            && self.profile() != undefined;
+    self.enableConvertButton = ko.computed(function() {
+        if (self.laserIntensity() == undefined || self.laserSpeed() == undefined || self.gcodeFilename() == undefined) {
+            return false;
+        } else {
+            var tmpIntensity = parseInt(self.laserIntensity().trim());
+            var tmpSpeed = parseInt(self.laserSpeed().trim());
+            var tmpGcodeFilename = self.gcodeFilename().trim();
+            return tmpGcodeFilename != ""
+                && tmpIntensity > 0 && tmpIntensity <= 1000
+                && tmpSpeed >= 30 && tmpSpeed <= 2000;
+        }
     });
 
     self.requestData = function() {
@@ -109,7 +116,7 @@ function VectorGraphicsConversionViewModel(loginStateViewModel) {
         self.defaultProfile = selectedProfile;
     };
 
-    self.slice = function() {
+    self.convert = function() {
         var gcodeFilename = self._sanitize(self.gcodeFilename());
         if (!_.endsWith(gcodeFilename.toLowerCase(), ".gco")
             && !_.endsWith(gcodeFilename.toLowerCase(), ".gcode")
@@ -119,8 +126,9 @@ function VectorGraphicsConversionViewModel(loginStateViewModel) {
 
         var data = {
             command: "slice",
-            slicer: self.slicer(),
-            profile: self.profile(),
+            "profile.speed": self.laserSpeed(),
+            "profile.intensity": self.laserIntensity(),
+            slicer: "svgtogcode",
             gcode: gcodeFilename
         };
 
@@ -132,11 +140,11 @@ function VectorGraphicsConversionViewModel(loginStateViewModel) {
             data: JSON.stringify(data)
         });
 
-        $("#slicing_configuration_dialog").modal("hide");
+        $("#dialog_vector_graphics_conversion").modal("hide");
 
         self.gcodeFilename(undefined);
-        self.slicer(self.defaultSlicer);
-        self.profile(self.defaultProfile);
+        //self.slicer(self.defaultSlicer);
+        //self.profile(self.defaultProfile);
     };
 
     self._sanitize = function(name) {
@@ -147,7 +155,3 @@ function VectorGraphicsConversionViewModel(loginStateViewModel) {
         self.requestData();
     };
 }
-
-    ADDITIONAL_VIEWMODELS.push([VectorGraphicsConversionViewModel, ["loginStateViewModel", "settingsViewModel", "slicingViewModel"], document.getElementById("dialog_vector_graphics_conversion")]);
-
-});
