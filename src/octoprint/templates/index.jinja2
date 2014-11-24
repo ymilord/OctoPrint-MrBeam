@@ -3,7 +3,7 @@
     <head>
         <title data-bind="text: title">OctoPrint</title>
 
-        <link rel="shortcut icon" href="{{ url_for('static', filename='img/tentacle-32x32.png') }}">
+        <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.png') }}">
         <link rel="apple-touch-icon" sizes="114x114" href="{{ url_for('static', filename='img/apple-touch-icon-114x114.png') }}">
         <link rel="apple-touch-icon" sizes="144x144" href="{{ url_for('static', filename='img/apple-touch-icon-144x144.png') }}">
 
@@ -40,6 +40,7 @@
             {% endfor %}
             <!-- /Plugin files -->
         {% endif %}
+        <link href="{{ url_for('static', filename='css/mrbeam.css') }}" rel="stylesheet" media="screen">
 
         <script lang="javascript">
             var BASEURL = "{{ url_for('index') }}";
@@ -73,7 +74,7 @@
         <div id="navbar" class="navbar navbar-static-top">
             <div class="navbar-inner" data-bind="css: appearance.color">
                 <div class="container">
-                    <a class="brand" href="#"> <span data-bind="text: appearance.brand">OctoPrint</span></a>
+                    <a class="brand" href="#"> <span xdata-bind="text: appearance.brand"></span></a>
                     <div class="nav-collapse">
                         <ul class="nav pull-right">
                             <li style="display: none;" data-bind="visible: loginState.isAdmin">
@@ -293,15 +294,15 @@
 
                 <div class="span8 tabbable">
                     <ul class="nav nav-tabs" id="tabs">
-                        <li class="active"><a href="#temp" data-toggle="tab">{{ _('Temperature') }}</a></li>
-                        <li><a href="#control" data-toggle="tab">{{ _('Control') }}</a></li>
-                        {% if enableGCodeVisualizer %}<li><a href="#gcode" data-toggle="tab">{{ _('GCode Viewer') }}</a></li>{% endif %}
-                        <li><a href="#term" data-toggle="tab">{{ _('Terminal') }}</a></li>
-                        {% if enableTimelapse %}<li><a href="#timelapse" data-toggle="tab">{{ _('Timelapse') }}</a></li>{% endif %}
+                        <li id="tab_temp"><a href="#temp" data-toggle="tab">{{ _('Temperature') }}</a></li>
+                        <li class="active" id="tab_control"><a href="#control" data-toggle="tab">{{ _('Control') }}</a></li>
+                        {% if enableGCodeVisualizer %}<li id="tab_gcode"><a href="#gcode" data-toggle="tab">{{ _('GCode Viewer') }}</a></li>{% endif %}
+                        <li id="tab_terminal"><a href="#term" data-toggle="tab">{{ _('Terminal') }}</a></li>
+                        {% if enableTimelapse %}<li id="tab_timelapse"><a href="#timelapse" data-toggle="tab">{{ _('Timelapse') }}</a></li>{% endif %}
                     </ul>
 
                     <div class="tab-content">
-                        <div class="tab-pane active" id="temp">
+                        <div class="tab-pane" id="temp">
                             {% if enableTemperatureGraph %}
                             <div class="row" style="padding-left: 20px">
                                 <div id="temperature-graph"></div>
@@ -358,7 +359,7 @@
                                 </script>
                             </div>
                         </div>
-                        <div class="tab-pane" id="control">
+                        <div class="tab-pane active" id="control">
                             {% if webcamStream %}
                             <div id="webcam_container">
                                 <img id="webcam_image" data-bind="css: { flipH: settings.webcam_flipH(), flipV: settings.webcam_flipV() }">
@@ -382,7 +383,7 @@
                                     </div>
                                 </div>
                                 <!-- Z jogging control panel -->
-                                <div class="jog-panel">
+                                <div class="jog-panel" id="control_zaxis">
                                     <h1>Z</h1>
                                     <div>
                                         <button class="btn box" data-bind="enable: isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.sendJogCommand('z',1) }"><i class="icon-arrow-up"></i></button>
@@ -405,7 +406,7 @@
                                 </div>
                             </div>
                             <!-- Extrusion control panel -->
-                            <div class="jog-panel" style="display: none;" data-bind="visible: loginState.isUser">
+                            <div id="control_extruder" class="jog-panel" style="display: none;" data-bind="visible: loginState.isUser">
                                 <h1>Tool (E)</h1>
                                 <div>
                                     <div class="btn-group control-box">
@@ -429,9 +430,10 @@
                             <div class="jog-panel" style="display: none;" data-bind="visible: loginState.isUser">
                                 <h1>{{ _('General') }}</h1>
                                 <div>
-                                    <button class="btn btn-block control-box" data-bind="enable: isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.sendCustomCommand({type:'command',command:'M18'}) }">{{ _('Motors off') }}</button>
-                                    <button class="btn btn-block control-box" data-bind="enable: isOperational() && loginState.isUser(), click: function() { $root.sendCustomCommand({type:'command',command:'M106'}) }">{{ _('Fans on') }}</button>
-                                    <button class="btn btn-block control-box" data-bind="enable: isOperational() && loginState.isUser(), click: function() { $root.sendCustomCommand({type:'command',command:'M106 S0'}) }">{{ _('Fans off') }}</button>
+                                    <button id="btn_focus_mode" class="btn btn-block control-box" data-bind="enable: isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.sendCustomCommand({type:'command',command:'M3S10'}) }">{{ _('Enable Focus') }}</button>
+                                    <button id="btn_motors_off" class="btn btn-block control-box" data-bind="enable: isOperational() && !isPrinting() && loginState.isUser(), click: function() { $root.sendCustomCommand({type:'command',command:'M18'}) }">{{ _('Motors off') }}</button>
+                                    <button id="btn_fan_on" class="btn btn-block control-box" data-bind="enable: isOperational() && loginState.isUser(), click: function() { $root.sendCustomCommand({type:'command',command:'M106'}) }">{{ _('Fans on') }}</button>
+                                    <button id="btn_fan_off" class="btn btn-block control-box" data-bind="enable: isOperational() && loginState.isUser(), click: function() { $root.sendCustomCommand({type:'command',command:'M106 S0'}) }">{{ _('Fans off') }}</button>
                                 </div>
                             </div>
 
@@ -487,18 +489,20 @@
                                         <h1>Model info</h1>
                                         <p data-bind="html: ui_modelInfo"></p>
 
+										<!--
                                         <h1>Layer info</h1>
                                         <p data-bind="html: ui_layerInfo"></p>
+		  -->
                                     </div>
-                                    <div class="span5">
+                                    <div class="span5" id="renderer_options">
                                         <h1>Renderer options</h1>
 
-                                        <p>
+                                        <p id="renderer_syncProgress">
                                             <label class="checkbox">
                                                 <input type="checkbox" data-bind="checked: renderer_syncProgress">{{ _('Sync with job progress') }}
                                             </label>
                                         </p>
-                                        <p>
+                                        <p id="renderer_centerViewport">
                                             <label class="checkbox">
                                                 <input type="checkbox" data-bind="checked: renderer_centerViewport">{{ _('Center viewport on model') }}
                                             </label>
@@ -507,7 +511,7 @@
                                             </label>
                                         </p>
 
-                                        <p>
+                                        <p id="renderer_showMoves">
                                             <label class="checkbox">
                                                 <input type="checkbox" data-bind="checked: renderer_showMoves">{{ _('Show moves') }}
                                             </label>
@@ -516,7 +520,7 @@
                                             </label>
                                         </p>
 
-                                        <p>
+                                        <p id="renderer_showPrevious">
                                             <label class="checkbox">
                                                 <input type="checkbox" data-bind="checked: renderer_showPrevious">{{ _('Also show previous layer') }}
                                             </label>
@@ -525,7 +529,7 @@
                                             </label>
                                         </p>
 
-                                        <p>
+                                        <p id="renderer_enableReload">
                                             <button class="btn btn-block" data-bind="click: reload, enable: enableReload">{{ _('Reload') }}</button>
                                         </p>
                                     </div>
@@ -645,10 +649,10 @@
                     <li><small>{{ _('Version') }}: <span class="version">{{ display_version }}</span></small></li>
                 </ul>
                 <ul class="pull-right">
-                    <li><a href="http://octoprint.org"><i class="icon-home"></i> {{ _('Homepage') }}</a></li>
-                    <li><a href="https://github.com/foosel/OctoPrint/"><i class="icon-download"></i> {{ _('Sourcecode') }}</a></li>
-                    <li><a href="https://github.com/foosel/OctoPrint/wiki"><i class="icon-book"></i> {{ _('Documentation') }}</a></li>
-                    <li><a href="https://github.com/foosel/OctoPrint/issues"><i class="icon-flag"></i> {{ _('Bugs and Requests') }}</a></li>
+                    <li><a href="http://www.mr-beam.org"><i class="icon-home"></i> {{ _('Homepage') }}</a></li>
+                    <li><a href="https://github.com/mrbeam/OctoPrint/"><i class="icon-download"></i> {{ _('Sourcecode') }}</a></li>
+                    <li><a href="https://wiki.mr-beam.org"><i class="icon-book"></i> {{ _('Documentation') }}</a></li>
+                    <li><a href="https://github.com/mrbeam/OctoPrint/issues"><i class="icon-flag"></i> {{ _('Bugs and Requests') }}</a></li>
                 </ul>
             </div>
         </div>
