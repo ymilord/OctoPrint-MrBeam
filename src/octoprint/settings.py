@@ -31,7 +31,7 @@ default_settings = {
 		"timeout": {
 			"detection": 0.5,
 			"connection": 2,
-			"communication": 5,
+			"communication": 10,
 			"temperature": 5,
 			"sdStatus": 1
 		},
