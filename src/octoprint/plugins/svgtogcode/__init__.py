@@ -248,10 +248,10 @@ class SvgToGcodePlugin(octoprint.plugin.SlicerPlugin,
 		engine_settings = self._convert_to_engine(profile_path)
 
 		# executable = s.get(["svgtogcode_engine"])
-		executable = "/Users/philipp/Documents/dev/MrBeam/mrbeam-inkscape-ext/standalone.py"
-		# executable = "/home/pi/mrbeam-inkscape-ext/standalone.py"
-		# log_path = "/home/pi/svgtogcode.log"
-		log_path = "/Users/philipp/svgtogcode.log"
+		# executable = "/Users/philipp/Documents/dev/MrBeam/mrbeam-inkscape-ext/standalone.py"
+		executable = "/home/pi/mrbeam-inkscape-ext/standalone.py"
+		log_path = "/home/pi/svgtogcode.log"
+		# log_path = "/Users/philipp/svgtogcode.log"
 		if not executable:
 			return False, "Path to SVG converter is not configured "
 
