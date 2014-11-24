@@ -144,7 +144,7 @@ class SvgToGcodePlugin(octoprint.plugin.SlicerPlugin,
 
 	def get_assets(self):
 		return {
-			"js": ["js/svgtogcode.js", "js/vectorgraphicsconversion.js"],
+			"js": ["js/svgtogcode.js", "js/convert.js"],
 			"less": ["less/svgtogcode.less"],
 			"css": ["css/svgtogcode.css"]
 		}
@@ -194,8 +194,9 @@ class SvgToGcodePlugin(octoprint.plugin.SlicerPlugin,
 	def get_slicer_properties(self):
 		return dict(
 			type="svgtogcode",
-			name="SvgToGCode",
-			same_device=True
+			name="svgtogcode",
+			same_device=True,
+			progress_report=False
 		)
 
 	def get_slicer_default_profile(self):
@@ -247,19 +248,22 @@ class SvgToGcodePlugin(octoprint.plugin.SlicerPlugin,
 		engine_settings = self._convert_to_engine(profile_path)
 
 		# executable = s.get(["svgtogcode_engine"])
-		executable = "/Users/philipp/Documents/dev/MrBeam/mrbeaminkscapeextension/standalone.py"
+		executable = "/Users/philipp/Documents/dev/MrBeam/mrbeam-inkscape-ext/standalone.py"
+		# executable = "/home/pi/mrbeam-inkscape-ext/standalone.py"
+		# log_path = "/home/pi/svgtogcode.log"
+		log_path = "/Users/philipp/svgtogcode.log"
 		if not executable:
-			return False, "Path to CuraEngine is not configured "
-
-		working_dir, _ = os.path.split(executable)
-		# args = ['"%s"' % executable, '-v', '-p']
-		# for k, v in engine_settings.items():
-		# 	args += ["-s", '"%s=%s"' % (k, str(v))]
-		# args += ['-o', '"%s"' % machinecode_path, '"%s"' % model_path]
+			return False, "Path to SVG converter is not configured "
 
 		dest_dir, dest_file = os.path.split(machinecode_path)
-		# args = ['"%s"' % executable, '-f "%s"' % dest_file, '-d "%s"' % dest_dir, '"%s"' % model_path]
-		args = ['"%s"' % executable, '-f "%s"' % dest_file, '-d "%s"' % dest_dir, '"%s"' % model_path]
+		working_dir, _ = os.path.split(executable)
+		args = ['"%s"' % executable, '-f "%s"' % dest_file, '-d "%s"' % dest_dir]
+		for k, v in engine_settings.items():
+			args += ['"%s=%s"' % (k, str(v))]
+		args += ['--create-log=false', '"--log-filename=%s"' % log_path,'"%s"' % model_path]
+
+		#python ~/mrbeam-inkscape-ext/standalone.py -f output.gcode -d output/path --engraving-laser-speed=300
+		#  --laser-intensity=1000  --create-log=false path/to/input.svg
 
 		import sarge
 		command = " ".join(args)
