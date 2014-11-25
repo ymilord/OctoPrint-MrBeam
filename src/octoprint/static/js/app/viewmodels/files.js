@@ -1,9 +1,10 @@
-function GcodeFilesViewModel(printerStateViewModel, loginStateViewModel, slicingViewModel) {
+function GcodeFilesViewModel(printerStateViewModel, loginStateViewModel, slicingViewModel, vectorConversionViewModel) {
     var self = this;
 
     self.printerState = printerStateViewModel;
     self.loginState = loginStateViewModel;
     self.slicing = slicingViewModel;
+    self.conversion = vectorConversionViewModel;
 
     self.isErrorOrClosed = ko.observable(undefined);
     self.isOperational = ko.observable(undefined);
@@ -67,7 +68,7 @@ function GcodeFilesViewModel(printerStateViewModel, loginStateViewModel, slicing
             }
         },
         "name",
-        ["machinecode"],
+        [],
         [["sd", "local"], ["machinecode", "model"]],
         0
     );
@@ -192,7 +193,7 @@ function GcodeFilesViewModel(printerStateViewModel, loginStateViewModel, slicing
     self.convertSVG = function(file) {
         if (!file) return;
 
-        self.svgconversion.show(file.origin, file.name);
+        self.conversion.show(file.origin, file.name);
     };
 
     self.initSdCard = function() {

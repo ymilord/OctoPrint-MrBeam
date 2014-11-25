@@ -24,14 +24,14 @@ def settings(init=False, configfile=None, basedir=None):
 
 default_settings = {
 	"serial": {
-		"port": None,
-		"baudrate": None,
-		"autoconnect": False,
+		"port": "/dev/ttyACM0",
+		"baudrate": 115200,
+		"autoconnect": True,
 		"log": False,
 		"timeout": {
 			"detection": 0.5,
 			"connection": 2,
-			"communication": 5,
+			"communication": 10,
 			"temperature": 5,
 			"sdStatus": 1
 		},
@@ -78,10 +78,10 @@ default_settings = {
 		"maxExtruders": 10
 	},
 	"feature": {
-		"temperatureGraph": True,
+		"temperatureGraph": False,
 		"waitForStartOnConnect": False,
 		"alwaysSendChecksum": False,
-		"sdSupport": True,
+		"sdSupport": False,
 		"sdAlwaysAvailable": False,
 		"swallowOkAfterResend": True,
 		"repetierTargetTemp": False,
@@ -117,7 +117,7 @@ default_settings = {
 			{"x": 0.0, "y": 0.0}
 		],
 		"bedDimensions": {
-			"x": 200.0, "y": 200.0, "r": 100, "circular": False
+			"x": 435.0, "y": 300.0, "r": 100, "circular": False
 		},
 		"defaultExtrusionLength": 5
 	},
